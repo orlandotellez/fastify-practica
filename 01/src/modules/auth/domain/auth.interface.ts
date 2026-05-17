@@ -1,4 +1,4 @@
-import type { Role, User } from "@/types/user"
+import type { Role } from "@/types/user"
 
 export interface IRegisterUser {
   name: string
@@ -7,7 +7,16 @@ export interface IRegisterUser {
   role?: Role
 }
 
+export interface IUserEntity {
+  id: string
+  name: string
+  email: string
+  role: Role
+  createdAt?: Date
+  updatedAt?: Date
+}
+
 export interface IAuthRepository {
-  existingUser: (email: string) => Promise<any | null>
-  createUser: (data: IRegisterUser) => Promise<User>
+  findByEmail(email: string): Promise<IUserEntity | null>
+  create(data: IRegisterUser): Promise<IUserEntity>
 }

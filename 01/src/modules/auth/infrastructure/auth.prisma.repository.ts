@@ -2,12 +2,13 @@ import { prisma } from "@/config/prisma";
 import type { IAuthRepository, IRegisterUser } from "../domain/auth.interface";
 
 export const AuthRepository: IAuthRepository = {
-  existingUser: async (email: string) => {
+  async findByEmail(email: string) {
     return await prisma.user.findFirst({
       where: { email, deletedAt: null }
     })
   },
-  createUser: async (data: IRegisterUser) => {
+
+  async create(data: IRegisterUser) {
     return prisma.user.create({
       data: {
         name: data.name,
