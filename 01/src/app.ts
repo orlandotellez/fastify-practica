@@ -4,7 +4,7 @@ import cors from "@fastify/cors"
 import compress from "@fastify/compress"
 import rateLimit from "@fastify/rate-limit"
 import { env } from "./config/env"
-import { getRedisClient, redis } from "./config/redis"
+import { getRedisClient } from "./config/redis"
 
 export const buildApp = async () => {
   const app = Fastify({
