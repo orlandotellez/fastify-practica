@@ -21,6 +21,7 @@ const startServer = async () => {
     process.on("SIGINT", () => gracefulShutdown("SIGINT"))
     process.on("SIGTERM", () => gracefulShutdown("SIGTERM"))
   } catch (error) {
+    logger.error({ err: error }, "Failed to start server")
     process.exit(1)
   }
 }
