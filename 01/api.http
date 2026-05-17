@@ -17,3 +17,16 @@ Content-Type: application/json
 
 
 ### 
+
+# Login
+
+POST {{baseUrl}}/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "newuser3@agenciapro.com",
+  "password": "password123"
+}
+
+
+### 

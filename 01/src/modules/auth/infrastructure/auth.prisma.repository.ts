@@ -1,5 +1,6 @@
 import { prisma } from "@/config/prisma";
-import type { IAuthRepository, IRegisterUser } from "../domain/auth.interface";
+import type { IAuthRepository } from "../domain/auth.interface";
+import type { IRegisterPayload } from "../domain/auth.types";
 
 export const AuthRepository: IAuthRepository = {
   async findByEmail(email: string) {
@@ -8,7 +9,7 @@ export const AuthRepository: IAuthRepository = {
     })
   },
 
-  async create(data: IRegisterUser) {
+  async create(data: IRegisterPayload) {
     return prisma.user.create({
       data: {
         name: data.name,
