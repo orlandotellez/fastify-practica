@@ -1,5 +1,7 @@
 import { buildApp } from "./app"
 import { env } from "./config/env"
+import { closeRedis } from "./config/redis"
+import { prisma } from "./config/prisma"
 import { logger } from "./infrastructure/logger"
 
 const startServer = async () => {
@@ -13,6 +15,8 @@ const startServer = async () => {
     const gracefulShutdown = async (signal: string) => {
       logger.info(`Received ${signal}, shutting down gracefully...`)
       await app.close()
+      await prisma.$disconnect()
+      await closeRedis()
       process.exit(0)
     }
 

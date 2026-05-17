@@ -4,6 +4,7 @@ import cors from "@fastify/cors"
 import compress from "@fastify/compress"
 import rateLimit from "@fastify/rate-limit"
 import { env } from "./config/env"
+import { getRedisClient, redis } from "./config/redis"
 
 export const buildApp = async () => {
   const app = Fastify({
@@ -24,9 +25,7 @@ export const buildApp = async () => {
       },
   })
 
-  app.get("/health", async () => {
-    return { status: "ok", timestamp: new Date().toISOString() }
-  })
+  getRedisClient()
 
   // Headers de seguridad (XSS, HSTS, etc.).
   await app.register(helmet)
@@ -43,6 +42,10 @@ export const buildApp = async () => {
   await app.register(rateLimit, {
     max: 100,
     timeWindow: "1 minute"
+  })
+
+  app.get("/health", async () => {
+    return { status: "ok", timestamp: new Date().toISOString() }
   })
 
   return app
