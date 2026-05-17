@@ -1,10 +1,16 @@
 import { buildApp } from "./app"
+import { logger } from "./infrastructure/logger"
 
 const startServer = async () => {
   try {
     const app = await buildApp()
 
-    await app.listen({ port: 3000, host: "0.0.0.0" })
+    const PORT = 3000
+    const HOST = "0.0.0.0"
+
+    await app.listen({ port: PORT, host: HOST })
+
+    logger.info(`Server listening on http://${HOST}:${PORT}`)
 
   } catch (error) {
     process.exit(1)
