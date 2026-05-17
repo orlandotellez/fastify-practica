@@ -5,6 +5,7 @@ import compress from "@fastify/compress"
 import rateLimit from "@fastify/rate-limit"
 import { env } from "./config/env"
 import { getRedisClient } from "./config/redis"
+import { routes } from "./presentation/routes"
 
 export const buildApp = async () => {
   const app = Fastify({
@@ -43,6 +44,8 @@ export const buildApp = async () => {
     max: 100,
     timeWindow: "1 minute"
   })
+
+  app.register(routes, { prefix: '/api/v1' });
 
   app.get("/health", async () => {
     return { status: "ok", timestamp: new Date().toISOString() }
