@@ -12,6 +12,14 @@ const startServer = async () => {
 
     logger.info(`Server listening on http://${HOST}:${PORT}`)
 
+    const gracefulShutdown = async (signal: string) => {
+      logger.info(`Received ${signal}, shutting down gracefully...`)
+      await app.close()
+      process.exit(0)
+    }
+
+    process.on("SIGINT", () => gracefulShutdown("SIGINT"))
+    process.on("SIGTERM", () => gracefulShutdown("SIGTERM"))
   } catch (error) {
     process.exit(1)
   }
