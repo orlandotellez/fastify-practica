@@ -1,16 +1,14 @@
 import { buildApp } from "./app"
+import { env } from "./config/env"
 import { logger } from "./infrastructure/logger"
 
 const startServer = async () => {
   try {
     const app = await buildApp()
 
-    const PORT = 3000
-    const HOST = "0.0.0.0"
+    await app.listen({ port: env.PORT, host: env.HOST })
 
-    await app.listen({ port: PORT, host: HOST })
-
-    logger.info(`Server listening on http://${HOST}:${PORT}`)
+    logger.info(`Server listening on http://${env.HOST}:${env.PORT}`)
 
     const gracefulShutdown = async (signal: string) => {
       logger.info(`Received ${signal}, shutting down gracefully...`)
