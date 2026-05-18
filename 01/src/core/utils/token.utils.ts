@@ -33,3 +33,6 @@ export const generateTokens = (userId: string, email: string, role: Role) => {
   return { accessToken, refreshToken }
 }
 
+export const verifyToken = (token: string, secret: string) => {
+  return jwt.verify(token, secret)
+}

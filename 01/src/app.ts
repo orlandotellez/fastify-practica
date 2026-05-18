@@ -2,6 +2,7 @@ import Fastify from "fastify"
 import helmet from "@fastify/helmet"
 import cors from "@fastify/cors"
 import compress from "@fastify/compress"
+import cookie from "@fastify/cookie"
 import rateLimit from "@fastify/rate-limit"
 import { env } from "./config/env"
 import { getRedisClient } from "./config/redis"
@@ -44,6 +45,9 @@ export const buildApp = async () => {
     max: 100,
     timeWindow: "1 minute"
   })
+
+  // Cookies
+  await app.register(cookie)
 
   app.register(routes, { prefix: '/api/v1' });
 
