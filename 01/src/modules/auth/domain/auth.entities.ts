@@ -28,15 +28,15 @@ export type CreateAccountData = Pick<IAccountEntity, "account_id" | "provider_id
 }
 
 export type CreateSessionData = {
-  userId: string
+  user_id: string
   token: string
-  expiresAt: Date
-  ipAddress?: string
-  userAgent?: string
+  expires_at: Date
+  ip_address?: string
+  user_agent?: string
 }
 
 export type CreateVerificationData = {
   identifier: string
   value: string
-  expiresAt: Date
+  expires_at: Date
 }

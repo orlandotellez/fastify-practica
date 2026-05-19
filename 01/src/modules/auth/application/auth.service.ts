@@ -59,7 +59,7 @@ export const createAuthService = (repository: IAuthRepository) => ({
     await repository.verification.create({
       identifier: email,
       value: verificationCode,
-      expiresAt: new Date(Date.now() + VERIFICATION_CODE_EXPIRY)
+      expires_at: new Date(Date.now() + VERIFICATION_CODE_EXPIRY)
     })
 
     // Generate tokens
@@ -67,9 +67,9 @@ export const createAuthService = (repository: IAuthRepository) => ({
 
     // Create session in DB
     await repository.session.create({
-      userId: user.id,
+      user_id: user.id,
       token: refreshToken,
-      expiresAt: new Date(Date.now() + SESSION_EXPIRY)
+      expires_at: new Date(Date.now() + SESSION_EXPIRY)
     })
 
     const response: IAuthResponse = {
@@ -117,9 +117,9 @@ export const createAuthService = (repository: IAuthRepository) => ({
 
     // Create session in DB
     await repository.session.create({
-      userId: user.id,
+      user_id: user.id,
       token: refreshToken,
-      expiresAt: new Date(Date.now() + SESSION_EXPIRY)
+      expires_at: new Date(Date.now() + SESSION_EXPIRY)
     })
 
     const response: IAuthResponse = {
@@ -182,9 +182,9 @@ export const createAuthService = (repository: IAuthRepository) => ({
 
     // Create new session in DB
     await repository.session.create({
-      userId: user.id,
+      user_id: user.id,
       token: newRefreshToken,
-      expiresAt: new Date(Date.now() + SESSION_EXPIRY)
+      expires_at: new Date(Date.now() + SESSION_EXPIRY)
     })
 
     const response: IRefreshResponse = {
@@ -237,9 +237,9 @@ export const createAuthService = (repository: IAuthRepository) => ({
 
     // Create new session
     await repository.session.create({
-      userId: user.id,
+      user_id: user.id,
       token: refreshToken,
-      expiresAt: new Date(Date.now() + SESSION_EXPIRY)
+      expires_at: new Date(Date.now() + SESSION_EXPIRY)
     })
 
     const response: IVerifyEmailResponse = {
@@ -270,7 +270,7 @@ export const createAuthService = (repository: IAuthRepository) => ({
     await repository.verification.create({
       identifier: `reset:${email}`,
       value: resetCode,
-      expiresAt: new Date(Date.now() + VERIFICATION_CODE_EXPIRY)
+      expires_at: new Date(Date.now() + VERIFICATION_CODE_EXPIRY)
     })
 
     // TODO: Send email with reset code
@@ -398,7 +398,7 @@ export const createAuthService = (repository: IAuthRepository) => ({
     await repository.verification.create({
       identifier: email,
       value: verificationCode,
-      expiresAt: new Date(Date.now() + VERIFICATION_CODE_EXPIRY)
+      expires_at: new Date(Date.now() + VERIFICATION_CODE_EXPIRY)
     })
 
     // TODO: Send email

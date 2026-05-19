@@ -148,11 +148,11 @@ const SessionRepository: ISessionRepository = {
   async create(data: CreateSessionData): Promise<ISessionEntity> {
     const session = await prisma.session.create({
       data: {
-        user_id: data.userId,
+        user_id: data.user_id,
         token: data.token,
-        expires_at: data.expiresAt,
-        ip_address: data.ipAddress,
-        user_agent: data.userAgent
+        expires_at: data.expires_at,
+        ip_address: data.ip_address,
+        user_agent: data.user_agent
       }
     })
     return mapPrismaSessionToEntity(session)
@@ -201,7 +201,7 @@ const VerificationRepository: IVerificationRepository = {
       data: {
         identifier: data.identifier,
         value: data.value,
-        expires_at: data.expiresAt
+        expires_at: data.expires_at
       }
     })
     return mapPrismaVerificationToEntity(verification)
