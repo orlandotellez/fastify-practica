@@ -24,3 +24,9 @@ export interface IAuthResponse {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface IRefreshResponse {
+  message: string
+  accessToken: string;
+  refreshToken: string;
+}

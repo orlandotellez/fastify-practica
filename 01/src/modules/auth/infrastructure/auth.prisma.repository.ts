@@ -8,7 +8,11 @@ export const AuthRepository: IAuthRepository = {
       where: { email, deletedAt: null }
     })
   },
-
+  async findById(id: string) {
+    return await prisma.user.findFirst({
+      where: { id, deletedAt: null }
+    })
+  },
   async create(data: IRegisterPayload) {
     return prisma.user.create({
       data: {

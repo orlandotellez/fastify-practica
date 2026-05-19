@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { createAuthService } from "../application/auth.service";
 import { AuthRepository } from "../infrastructure/auth.prisma.repository";
-import { LoginPayloadDtoSchema, RegisterPayloadDtoSchema } from "./auth.dto";
+import { LoginPayloadDtoSchema, RefreshTokenDtoSchema, RegisterPayloadDtoSchema } from "./auth.dto";
 import { env } from "@/config/env";
 import { clearAuthCookies, setAuthCookies } from "@/core/utils/cookie.utils";
 import { ConflictError, UnauthorizedError } from "@/core/errors/AppError";
@@ -59,6 +59,24 @@ export const authController = {
     const response = {
       message: result.message,
       user: result.user
+    }
+
+    return reply.status(200).send(response)
+  },
+
+  refresh: async (request: FastifyRequest, reply: FastifyReply) => {
+    const refreshToken = request.cookies.refreshToken
+
+    if (!refreshToken) {
+      throw new UnauthorizedError("Refresh token required")
+    }
+
+    const result = await authService.refresh(refreshToken)
+
+    setAuthCookies(reply, result.accessToken, result.refreshToken, env.NODE_ENV === "production")
+
+    const response = {
+      message: result.message,
     }
 
     return reply.status(200).send(response)

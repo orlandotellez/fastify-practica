@@ -1,9 +1,10 @@
-import { ConflictError, UnauthorizedError } from "@/core/errors/AppError"
+import { ConflictError, NotFoundError, UnauthorizedError } from "@/core/errors/AppError"
 import { comparePassword, hashPassword } from "@/core/utils/crypto.utils"
-import { generateTokens } from "@/core/utils/token.utils"
+import { generateTokens, verifyToken } from "@/core/utils/token.utils"
 import type { IAuthRepository } from "../domain/auth.interface"
-import type { IAuthResponse, ILoginPayload, IRegisterPayload } from "../domain/auth.types"
+import type { IAuthResponse, ILoginPayload, IRefreshResponse, IRegisterPayload } from "../domain/auth.types"
 import type { Role } from "@/types/user"
+import { env } from "@/config/env"
 
 export const createAuthService = (repository: IAuthRepository) => ({
   register: async (data: IRegisterPayload): Promise<IAuthResponse> => {
@@ -65,6 +66,48 @@ export const createAuthService = (repository: IAuthRepository) => ({
       },
       accessToken,
       refreshToken
+    }
+
+    return response
+  },
+
+  refresh: async (refreshToken: string): Promise<IRefreshResponse> => {
+    let payload: { userId: string }
+
+    try {
+      payload = verifyToken(
+        refreshToken,
+        env.JWT_REFRESH_SECRET
+      ) as { userId: string }
+    } catch {
+      throw new UnauthorizedError("Invalid or expired refresh token")
+    }
+
+    const user = await repository.findById(payload.userId)
+
+    if (!user) {
+      throw new UnauthorizedError("Invalid refresh token")
+    }
+
+    const {
+      accessToken,
+      refreshToken: newRefreshToken
+    } = generateTokens(
+      user.id,
+      user.email,
+      user.role as Role
+    )
+
+    const response = {
+      message: "Token refreshed successfully",
+      accessToken,
+      refreshToken: newRefreshToken,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role
+      }
+
     }
 
     return response
