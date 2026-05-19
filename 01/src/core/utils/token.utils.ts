@@ -1,5 +1,6 @@
 import { env } from "@/config/env"
-import type { Role } from "@/types/user"
+import type { Role } from "@/types/auth"
+import type { FastifyRequest } from "fastify"
 import type { SignOptions } from "jsonwebtoken"
 import jwt from "jsonwebtoken"
 
@@ -36,3 +37,13 @@ export const generateTokens = (userId: string, email: string, role: Role) => {
 export const verifyToken = (token: string, secret: string) => {
   return jwt.verify(token, secret)
 }
+
+// Helper para obtener refresh token del cookie o body
+export function getRefreshToken(request: FastifyRequest): string {
+  const cookieToken = request.cookies.refreshToken
+  // Try to get from body if cookie not present
+  const body = request.body as Record<string, unknown> | undefined
+  const bodyToken = typeof body?.refreshToken === "string" ? body.refreshToken : undefined
+  return cookieToken || bodyToken || ""
+}
+

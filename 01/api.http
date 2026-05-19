@@ -3,30 +3,122 @@
 @baseUrl = {{host}}/api/v1
 @host = http://localhost:3000
 
-# Register
+# AUTH ENDPOINTS
+# REGISTER
 
 POST {{baseUrl}}/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "newuser3@agenciapro.com",
-  "name": "user2",
+  "email": "testuser@agenciapro.com",
+  "name": "Test User",
   "password": "password123",
-  "role": "admin"
+  "role": "staff"
 }
 
 
 ### 
 
-# Login
+# LOGIN
 
 POST {{baseUrl}}/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "newuser3@agenciapro.com",
+  "email": "testuser@agenciapro.com",
   "password": "password123"
 }
+
+
+### 
+
+# LOGOUT
+
+POST {{baseUrl}}/auth/logout HTTP/1.1
+Content-Type: application/json
+
+{}
+
+
+### 
+
+# REFRESH TOKEN
+
+POST {{baseUrl}}/auth/refresh HTTP/1.1
+Content-Type: application/json
+
+{}
+
+
+### 
+
+# VERIFY EMAIL
+
+POST {{baseUrl}}/auth/verify-email HTTP/1.1
+Content-Type: application/json
+
+{
+  "code": "XXXXXX",
+  "identifier": "testuser@agenciapro.com"
+}
+
+
+### 
+
+# RESEND VERIFICATION
+
+POST {{baseUrl}}/auth/resend-verification HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "testuser@agenciapro.com"
+}
+
+
+### 
+
+# FORGOT PASSWORD
+
+POST {{baseUrl}}/auth/forgot-password HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "testuser@agenciapro.com"
+}
+
+
+### 
+
+# RESET PASSWORD
+
+POST {{baseUrl}}/auth/reset-password HTTP/1.1
+Content-Type: application/json
+
+{
+  "code": "XXXXXX",
+  "email": "testuser@agenciapro.com",
+  "newPassword": "newpassword123"
+}
+
+
+### 
+
+# GET USER SESSIONS (Protected)
+
+GET {{baseUrl}}/auth/sessions HTTP/1.1
+Content-Type: application/json
+
+{}
+
+
+### 
+
+# REVOKE SESSION (Protected)
+
+DELETE {{baseUrl}}/auth/sessions/00000000-0000-0000-0000-000000000000 HTTP/1.1
+Content-Type: application/json
+
+{}
 
 
 ### 
